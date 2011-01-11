@@ -25,5 +25,10 @@ class Task:
         self.retry = 0
         self.master = None
 
+    # Currently `master` field is not set by the task sender, but we
+    # can do this in the future to get sanity check.
+    def set_master(self, m):
+        self.master = m
+
     def __str__(self):
-        return 'id: %s fl: %s exe: %s type: %s format: %s'% (self.tid, self.fl, self.exe, self.type, self.format)
+        return 'id: %s fl: %s exe: %s type: %s format: %s master: %s'% (self.tid, self.fl, self.exe, self.type, self.format, self.master)
