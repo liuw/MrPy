@@ -80,7 +80,7 @@ class Job:
                 seq += range(self.M-remains+1, self.M+1)
 
             pos_start = pos_end + 1
-            rfl = [self.outdir+"/%s.imf" % i for i in seq]
+            rfl = ["%s.imf" % i for i in seq]
             for f in rfl:
                 self._intermediate_to_reducer[f] = tid
 
