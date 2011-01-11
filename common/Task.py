@@ -21,9 +21,9 @@ class Task:
         self.type = type
         self.format = format
 
-        # which slave is this task assigned to?
         self.slave = None
         self.retry = 0
+        self.master = None
 
     def __str__(self):
         return 'id: %s fl: %s exe: %s type: %s format: %s'% (self.tid, self.fl, self.exe, self.type, self.format)
