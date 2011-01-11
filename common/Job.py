@@ -42,7 +42,6 @@ class Job:
         """
         # Input directory should be placed in SHARED_STORAGE
         import distutils.filelist
-        path = Config.SHARED_STORAGE
         file_list = distutils.filelist.findall(dir=self.indir)
         n = len(file_list)
         if n < self.M:
@@ -52,7 +51,7 @@ class Job:
 
         # Generate mapper list
         pos_start = 0
-        # Every task has its ID
+        # Task ID starts from 1.
         for tid in xrange(1, self.M+1):
             pos_end = tid*files_per_mapper
             tfiles = file_list[pos_start:pos_end]
