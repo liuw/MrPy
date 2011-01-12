@@ -3,21 +3,13 @@
 
 import Config
 import Task
+import threading
+from threading import Thread
 
 class Job:
-    def __init__(self, mapper, reducer, M, R, indir,
+    def __init__(self, slaves, mapper, reducer, M, R, indir,
                  outdir, informat=None, outformat=None):
-        """
-        Arguments:
-        - `mapper`: mapper program
-        - `reducer`: reducer program
-        - `M`: number of mappers
-        - `R`: number of reducers
-        - `indir`: directory for input files
-        - `outdir`: directory for output files
-        - `informat`: input format for mapper
-        - `outformat`: output format for reducer
-        """
+        self.slaves = slaves
         self.mapper = mapper
         self.reducer = reducer
         self.M = M
@@ -32,6 +24,7 @@ class Job:
         self.reducer_list = []
         self.completed_list = []
         self.failed_list = []
+        self.dead_slaves = []
 
         # intermediate files to reducer mapping
         self._intermediate_to_reducer = {}
@@ -89,3 +82,38 @@ class Job:
             self.reducer_list.append(tsk)
 
         self.task_list = self.mapper_list + self.reducer_list
+
+    def _slaves_checker(self):
+        import urllib
+        import time
+        while True:
+            for i in xrange(0,len(self.slaves)):
+                try:
+                    urllib.urlopen('http://'+self.slaves[i]+str(Config.SLAVE_DPORT)+'/notex', timeout=0.5)
+                except:
+                    # FIXME: slave is dead
+                    pass
+            time.sleep(30)
+
+    def _state_printer(self):
+        import time
+        while True:
+            print self.completed_list
+            print self.failed_list
+
+            time.sleep(10)
+
+    def run(self):
+        chkt = Thread(target=self._slaves_checker)
+        chkt.start()
+
+        spt = Thread(target=self._state_printer)
+        spt.start()
+
+        chkt.join()
+        spt.join()
+
+if __name__ == '__main__':
+    j = Job(['1', '2', '3'], 'ls', 'cat', 5, 2, '/home/liuw/pymr', 'out')
+    j.split()
+    j.run()
