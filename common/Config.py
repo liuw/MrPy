@@ -11,3 +11,6 @@ MASTER_MPORT = 9000
 
 # Global FS, can be NFS or anything else
 SHARED_STORAGE = "/path/to/shared/storage"
+
+# How many times should a failed task retry.
+MAX_TASK_RETRY = 5

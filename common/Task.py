@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import Config
+
 MAPPER  = "m"
 REDUCER = "r"
-MAX_RETRY = 5
+MAX_RETRY = Config.MAX_TASK_RETRY
 
 class Task:
     def __init__(self, tid, fl=None, exe=None, type=None, format=None):
