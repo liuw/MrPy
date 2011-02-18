@@ -5,10 +5,11 @@ import Config
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 
-server_address = ('', Config.SLAVE_DPORT)
+def httpd(port):
+    server_address = ('', port)
 
-httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
+    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
-sa = httpd.socket.getsockname()
-print 'Serving HTTP on', sa[0], 'port', sa[1], '...'
-httpd.serve_forever()
+    sa = httpd.socket.getsockname()
+    print 'Serving HTTP on', sa[0], 'port', sa[1], '...'
+    httpd.serve_forever()

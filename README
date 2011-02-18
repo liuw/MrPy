@@ -1,0 +1,10 @@
+Mr. Py - A MapReduce framework for teaching
+
+Author: Wei LIU
+E-mail: liuw (can be reached at) liuw dot name
+
+This project aims to create a MapReduce framework in Python for teaching purpose. Why python? Simple and clear.
+
+It should not be too complex to understand. So it's better to adapt Hadoop's Streaming method - input from stdin, output to stdout.
+
+As for distributed file system, I have no plan yet. Just use NFS and it will serve your purpose.

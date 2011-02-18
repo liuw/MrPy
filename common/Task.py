@@ -3,21 +3,23 @@
 
 import Config
 
+# Task types
 MAPPER  = "m"
 REDUCER = "r"
+
+# Task max retry
 MAX_RETRY = Config.MAX_TASK_RETRY
 
+# Task states
+IDLE       = "idle"
+INPROGRESS = "inprogress"
+COMPLETED  = "completed"
+FAILED     = "failed"
+
 class Task:
-    def __init__(self, tid, fl=None, exe=None, type=None, format=None):
-        """
-        Arguments:
-        - `tid`: task id
-        - `fl`: input files
-        - `exe`: executable
-        - `type`: mapper or reducer
-        - `format`: (mapper) input / (reducer) output format
-        """
+    def __init__(self, tid, jobname, fl=None, exe=None, type=None, format=None):
         self.tid = tid
+        self.jobname = jobname
         self.fl = fl
         self.exe = exe
         self.type = type
@@ -26,11 +28,7 @@ class Task:
         self.slave = None
         self.retry = 0
         self.master = None
-
-    # Currently `master` field is not set by the task sender, but we
-    # can do this in the future to get sanity check.
-    def set_master(self, m):
-        self.master = m
+        self.state = IDLE
 
     def __str__(self):
-        return 'id: %s fl: %s exe: %s type: %s format: %s master: %s'% (self.tid, self.fl, self.exe, self.type, self.format, self.master)
+        return 'id: %s jobname: %s fl: %s exe: %s type: %s format: %s master: %s slave: %s'% (self.tid, self.jobname, self.fl, self.exe, self.type, self.format, self.master, self.slave)
